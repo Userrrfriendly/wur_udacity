@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import TabbedAppBar from "./components/appBar/tabbedAppBar";
+// import Login from "./components/loginScreen/login";
+// import QuestionCard from "./components/questionCard/questionCard";
+// import ResultCard from "./components/resultCard/resultCard";
+// import NewQuestionForm from "./components/newQuestionForm/newQuestionForm";
+import Leaderboard from "./components/leaderboard/leaderboard";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TabbedAppBar>
+        {/* <Login /> */}
+        {/* <QuestionCard /> */}
+        {/* <ResultCard /> */}
+        {/* <NewQuestionForm /> */}
+        <Leaderboard />
+      </TabbedAppBar>
     </div>
   );
 }
