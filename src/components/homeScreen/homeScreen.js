@@ -6,19 +6,20 @@ import {
   Box,
   Paper,
   Tabs,
-  Tab
+  Tab,
 } from "@material-ui/core";
 
 import QuestionPreview from "../questionCard/questionPreview";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
-    flexFlow: "column"
+    flexFlow: "column",
   },
   homescreen: {
     // display: "flex"
-  }
+  },
 });
 
 function TabPanel(props) {
@@ -47,6 +48,23 @@ export default function Homescreen(props) {
     setValue(newValue);
   };
 
+  const questions = useSelector((state) => state.questions);
+  const authUser = useSelector((state) => state.users.authUser);
+
+  const unAnsweredQ = [];
+  const answeredQ = [];
+
+  questions.forEach((q) => {
+    if (
+      !q.optionOne.votes.includes(authUser) &&
+      !q.optionTwo.votes.includes(authUser)
+    ) {
+      unAnsweredQ.push(q);
+    } else {
+      answeredQ.push(q);
+    }
+  });
+
   return (
     <Paper className={classes.root}>
       <Paper className={classes.homescreen} square>
@@ -58,15 +76,29 @@ export default function Homescreen(props) {
           aria-label="Answered/Unanswered Questions"
           centered
         >
-          <Tab label="Anwered Questions" />
+          <Tab label="Answered Questions" />
           <Tab label="Unanswered Questions" />
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <QuestionPreview style={{ backgroundColor: "red" }} />
+        {answeredQ.map((q) => (
+          <QuestionPreview
+            key={q.id}
+            author={q.author}
+            previewText={q.optionOne.text}
+            id={q.id}
+          />
+        ))}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <QuestionPreview />
+        {unAnsweredQ.map((q) => (
+          <QuestionPreview
+            key={q.id}
+            author={q.author}
+            previewText={q.optionOne.text}
+            id={q.id}
+          />
+        ))}
       </TabPanel>
     </Paper>
   );

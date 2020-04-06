@@ -1,16 +1,16 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Typography, Button } from "@material-ui/core";
-import rickAvatar from "../../assets/avatars/rick2.png";
-// import mortyAvatar from "../../assets/avatars/morty.png";
-// import jeryAvatar from "../../assets/avatars/jerry.png";
+import { useSelector } from "react-redux";
+import placeHolderAvater from "../../assets/avatars/placeholder.png";
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
     flexWrap: "wrap",
     flexFlow: "column",
-    marginTop: "1rem"
+    marginTop: "1rem",
   },
   header: {
     backgroundColor: "gold",
@@ -19,24 +19,24 @@ const useStyles = makeStyles({
     borderTopRightRadius: "4px",
     borderBottom: "2px solid black",
     "& h1": {
-      marginLeft: "1rem"
-    }
+      marginLeft: "1rem",
+    },
   },
   cardBody: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-around",
-    margin: "1rem 0"
+    margin: "1rem 0",
   },
   avatarSection: {
     borderRadius: "100%",
-    backgroundImage: `url(${rickAvatar})`,
+    backgroundImage: `url(${placeHolderAvater})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     minWidth: "100px",
     minHeight: "100px",
-    margin: "1.5rem"
+    margin: "1.5rem",
   },
 
   questionSection: {
@@ -45,17 +45,24 @@ const useStyles = makeStyles({
     flexFlow: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: "0 1.5rem"
+    padding: "0 1.5rem",
   },
 
   submitBtn: {
     width: "100%",
-    margin: "1rem 1rem 0 1rem"
-  }
+    margin: "1rem 1rem 0 1rem",
+  },
 });
 
-export default function QuestuinCard() {
+export default function QuestionCard({ author, previewText, id }) {
+  const user = useSelector((state) => state.users.users[author]);
   const classes = useStyles();
+  const history = useHistory();
+  const handleViewPollClick = () => {
+    console.log(id);
+    console.log(history.location);
+    history.push(`/questions:${id}`);
+  };
 
   return (
     <div>
@@ -67,11 +74,14 @@ export default function QuestuinCard() {
             component="h1"
             className={classes.heading}
           >
-            Superman asks
+            {`${user.name} asks:`}
           </Typography>
         </section>
         <section className={classes.cardBody}>
-          <Paper className={classes.avatarSection} />
+          <Paper
+            className={classes.avatarSection}
+            style={{ backgroundImage: `url(${user.avatarURL})` }}
+          />
           <section className={classes.questionSection}>
             <Typography align="left" variant="h4" component="h2">
               Would you rather...
@@ -81,13 +91,15 @@ export default function QuestuinCard() {
               variant="body1"
               component="p"
               style={{ alignSelf: "flex-start" }}
+              noWrap
             >
-              Jump on a sword...
+              {previewText}
             </Typography>
             <Button
               variant="contained"
               color="primary"
               className={classes.submitBtn}
+              onClick={handleViewPollClick}
             >
               View Poll
             </Button>
