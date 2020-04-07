@@ -8,7 +8,6 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
-// import { saveQuestion } from "../../store/actions/questionsActions";
 import { saveQuestion } from "../../store/actions/sharedActions";
 
 const useStyles = makeStyles({
@@ -62,11 +61,16 @@ export default function NewQuestionForm() {
     setOptionTwoText(e.target.value);
   };
   const author = useSelector((state) => state.users.authUser);
+
   const handleSaveQuestion = (e) => {
-    disptach(saveQuestion({ author, optionOneText, optionTwoText }));
-    setOptionOneText("");
-    setOptionTwoText("");
-    history.push("/");
+    if (optionOneText === "" || optionTwoText === "") {
+      alert("Question cannot null, please enter text for both options");
+    } else {
+      disptach(saveQuestion({ author, optionOneText, optionTwoText }));
+      setOptionOneText("");
+      setOptionTwoText("");
+      history.push("/");
+    }
   };
 
   return (

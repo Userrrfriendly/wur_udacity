@@ -38,7 +38,6 @@ const useStyles = makeStyles({
     minHeight: "100px",
     margin: "1.5rem",
   },
-
   questionSection: {
     borderLeft: "1px solid black",
     display: "flex",
@@ -55,7 +54,7 @@ const useStyles = makeStyles({
     marginBottom: "1rem",
     padding: "1rem",
   },
-  popularQuestion: {
+  usersAnswer: {
     backgroundColor: "#80bdbd",
   },
   progressContainer: {
@@ -69,14 +68,9 @@ const useStyles = makeStyles({
   },
   progress: {
     backgroundColor: "teal",
-    // width: "30%",
     height: "100%",
   },
   yourVote: {
-    // position: "absolute",
-    // width: "3rem",
-    // height: "3rem",
-    // borderRadius: "100%"
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -90,7 +84,6 @@ export default function ResultCard(props) {
   const optionTwoPercent =
     ((100 * props.optionTwoVotes) / props.totalVotes).toFixed(0) + "%";
 
-  console.log(props);
   return (
     <div>
       <Paper className={classes.root}>
@@ -119,12 +112,9 @@ export default function ResultCard(props) {
             >
               RESULTS:
             </Typography>
-            {/* {} */}
             <Paper
               className={`${classes.question} ${
-                props.authUserVote === "optionOne"
-                  ? classes.popularQuestion
-                  : ""
+                props.authUserVote === "optionOne" ? classes.usersAnswer : ""
               }`}
             >
               <Typography align="left" variant="subtitle2" component="p">
@@ -158,9 +148,7 @@ export default function ResultCard(props) {
             {/*  */}
             <Paper
               className={`${classes.question} ${
-                props.authUserVote === "optionTwo"
-                  ? classes.popularQuestion
-                  : ""
+                props.authUserVote === "optionTwo" ? classes.usersAnswer : ""
               }`}
             >
               <Typography align="left" variant="subtitle2" component="p">

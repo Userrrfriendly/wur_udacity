@@ -15,8 +15,6 @@ export function loadInitialData() {
   return (dispatch) => {
     Promise.all([DATA._getUsers(), DATA._getQuestions()]).then(
       ([usersData, questionsData]) => {
-        // console.log(questionsData);
-
         const users = {};
         for (let key in usersData) {
           const userWithScore = {
@@ -25,10 +23,8 @@ export function loadInitialData() {
               usersData[key].questions.length +
               Object.keys(usersData[key].answers).length,
           };
-          // users.push(usersData[key]);
           users[key] = userWithScore;
         }
-        console.log(users);
         const questions = [];
         for (let key in questionsData) {
           questions.push(questionsData[key]);
@@ -53,9 +49,6 @@ export function loadInitialData() {
 export function saveQuestionAnswer(obj) {
   return (dispatch) => {
     DATA._saveQuestionAnswer(obj).then((data) => {
-      // console.log(data);
-      // authedUser, qid, and answer
-      // userID, answerID,
       dispatch({
         type: SAVE_QUESTION_ANSWER,
         payload: obj,
@@ -75,7 +68,6 @@ export function saveQuestionAnswer(obj) {
 export function saveQuestion(obj) {
   return (dispatch) => {
     DATA._saveQuestion(obj).then((data) => {
-      console.log(data);
       dispatch({
         type: SAVE_QUESTION,
         payload: data,

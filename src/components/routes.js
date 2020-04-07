@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from "./homeScreen/homeScreen";
-// import QuestionPreview from "./questionCard/questionPreview";
 import Question from "./questionCard/questionCard";
 import Leaderboard from "./leaderboard/leaderboard";
 import NewQuestionForm from "./newQuestionForm/newQuestionForm";
+import Error404 from "./404error/error404";
 
 export default function Routes() {
   return (
@@ -22,7 +22,7 @@ export default function Routes() {
         <NewQuestionForm />
       </Route>
       <Route>
-        <h1>404 Error, the page you are looking for doesn't exist</h1>
+        <Error404 />
       </Route>
     </Switch>
   );

@@ -2,8 +2,8 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducers/rootReducer";
 import ReduxThunk from "redux-thunk";
 
-//FAKE Middlware
-const logger = store => next => action => {
+//Logger Middlware
+const logger = (store) => (next) => (action) => {
   console.group(action.type);
   console.log("The action: ", action);
   const result = next(action);

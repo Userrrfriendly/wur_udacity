@@ -38,7 +38,6 @@ const useStyles = makeStyles({
     minHeight: "100px",
     margin: "1.5rem",
   },
-
   questionSection: {
     borderLeft: "1px solid black",
     display: "flex",
@@ -47,7 +46,6 @@ const useStyles = makeStyles({
     alignItems: "center",
     padding: "0 1.5rem",
   },
-
   submitBtn: {
     width: "100%",
     margin: "1rem 1rem 0 1rem",
@@ -59,8 +57,6 @@ export default function QuestionCard({ author, previewText, id }) {
   const classes = useStyles();
   const history = useHistory();
   const handleViewPollClick = () => {
-    console.log(id);
-    console.log(history.location);
     history.push(`/questions/${id}`);
   };
 

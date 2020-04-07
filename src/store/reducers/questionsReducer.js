@@ -7,7 +7,6 @@ import {
 export default function (state = [], action) {
   switch (action.type) {
     case LOAD_QUESTIONS:
-      console.log(action.questions);
       return [...action.questions];
     case SAVE_QUESTION_ANSWER:
       const { authedUser, qid, answer } = action.payload;

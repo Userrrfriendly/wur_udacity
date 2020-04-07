@@ -6,7 +6,6 @@ export const SAVE_QUESTION = "SAVE_QUESTION";
 export function loadQuestions() {
   return (dispatch) => {
     DATA._getQuestions().then((data) => {
-      // console.log(data);
       const questions = [];
       for (let key in data) {
         questions.push(data[key]);
@@ -18,27 +17,3 @@ export function loadQuestions() {
     });
   };
 }
-
-// export function saveQuestionAnswer(obj) {
-//   return (dispatch) => {
-//     DATA._saveQuestionAnswer(obj).then((data) => {
-//       // console.log(data);
-//       dispatch({
-//         type: SAVE_QUESTION_ANSWER,
-//         payload: obj,
-//       });
-//     });
-//   };
-// }
-
-// export function saveQuestion(obj) {
-//   return (dispatch) => {
-//     DATA._saveQuestion(obj).then((data) => {
-//       console.log(data);
-//       dispatch({
-//         type: SAVE_QUESTION,
-//         payload: data,
-//       });
-//     });
-//   };
-// }

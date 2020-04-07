@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
   Typography,
@@ -10,12 +9,12 @@ import {
   Radio,
   FormControlLabel,
   RadioGroup,
+  makeStyles,
 } from "@material-ui/core";
 import Error404 from "../404error/error404";
-import placeHolderAvatar from "../../assets/avatars/placeholder.png";
 import ResultCard from "../resultCard/resultCard";
-// import { saveQuestionAnswer } from "../../store/actions/questionsActions";
 import { saveQuestionAnswer } from "../../store/actions/sharedActions";
+import placeHolderAvatar from "../../assets/avatars/placeholder.png";
 
 const useStyles = makeStyles({
   root: {
@@ -78,7 +77,6 @@ export default function QuestuinCard() {
   const question = allQuestions.filter((q) => q.id === urlID.id);
   const users = useSelector((state) => state.users.users);
   const formatedQuestion = () => {
-    console.log(question);
     if (question.length > 0) {
       let authUserVote, optionOneVotes, optionTwoVotes, totalVotes;
       const author = users[question[0].author];
@@ -102,7 +100,7 @@ export default function QuestuinCard() {
         optionTwoText: question[0].optionTwo.text,
         answered: answered,
         id: question[0].id,
-        authUserVote, // "string?",
+        authUserVote, // "string",
         optionOneVotes, //: "number",
         optionTwoVotes, //: "number",
         totalVotes, //: "number",
@@ -111,30 +109,17 @@ export default function QuestuinCard() {
       return undefined;
     }
   };
-  console.group("QUESTION CARD:");
-  console.log(allQuestions);
-  console.log(urlID);
-  console.log(question);
-  console.groupEnd();
-  console.group("formated QUESTION:");
-  console.log(users);
-  console.log(formatedQuestion());
-  console.groupEnd();
 
-  const [value, setValue] = React.useState("optionOne");
+  const [value, setValue] = useState("optionOne");
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const q = formatedQuestion();
-  console.group("GREAT BUG");
-  console.log(q);
-  // console.log(!q.answered);
   const handleSubmitAnswer = (e) => {
     // authedUser, qid, and answer = "optionOne" or "optionTwo"
     const result = { authedUser: authUser, qid: q.id, answer: value };
-    console.log(result);
     dispatch(saveQuestionAnswer(result));
   };
 

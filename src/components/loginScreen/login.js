@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import heroImage from "../../assets/hero-logo.png";
 import { signInUser } from "../../store/actions/usersActions";
-import { useDispatch, useSelector } from "react-redux";
+
 const useStyles = makeStyles({
   root: {
     display: "flex",
@@ -29,6 +29,9 @@ const useStyles = makeStyles({
     borderTopLeftRadius: "4px",
     borderTopRightRadius: "4px",
     borderBottom: "2px solid black",
+  },
+  wellcomeText: {
+    padding: "0 0.5rem",
   },
   signSection: {
     display: "flex",
@@ -47,8 +50,6 @@ const useStyles = makeStyles({
 export default function LoginScreen(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
-  const auth = useSelector((state) => state.authUser);
   const [user, setUser] = React.useState("");
 
   const handleChange = (event) => {
@@ -57,8 +58,6 @@ export default function LoginScreen(props) {
 
   const handleLogIn = () => {
     if (user) {
-      // props.changeTab(); //change tab to homescreen
-      // history.push("home");
       dispatch(signInUser(user));
     } else {
       alert("Please Select a User");
@@ -69,11 +68,16 @@ export default function LoginScreen(props) {
     <div>
       <Paper className={classes.root}>
         <section className={classes.header}>
-          <Typography align="center" variant="h4" component="h1">
+          <Typography
+            align="center"
+            variant="h4"
+            component="h1"
+            className={classes.wellcomeText}
+          >
             Wellcome to the Would You Rather App
           </Typography>
           <Typography align="center" variant="subtitle1" component="p">
-            please Sign in to continue
+            Sign in to continue
           </Typography>
         </section>
         <section className={classes.signSection}>
@@ -87,7 +91,7 @@ export default function LoginScreen(props) {
                   className={classes.select}
                   value={user}
                   onChange={handleChange}
-                  label="Age"
+                  label="User"
                 >
                   {props.users &&
                     props.users.map((user) => (

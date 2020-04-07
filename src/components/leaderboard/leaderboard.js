@@ -10,8 +10,6 @@ const useStyles = makeStyles({
     padding: "1rem",
   },
   playerCard: {
-    // minWidth: "50vw",
-    // minHeight: "50vh",
     margin: "1rem 0",
     display: "flex",
     alignItems: "center",
@@ -86,23 +84,7 @@ const Score = ({ score }) => {
 export default function Leaderboard(props) {
   const classes = useStyles();
   const users = useSelector((state) => state.users.users);
-  console.log(users);
   const formatedUsers = Object.values(users).sort((a, b) => b.score - a.score);
-  // console.log(formatedUsers);
-
-  // var items = [
-  //   { name: 'Edward', value: 21 },
-  //   { name: 'Sharpe', value: 37 },
-  //   { name: 'And', value: 45 },
-  //   { name: 'The', value: -12 },
-  //   { name: 'Magnetic', value: 13 },
-  //   { name: 'Zeros', value: 37 }
-  // ];
-
-  // // sort by value
-  // items.sort(function (a, b) {
-  //   return a.value - b.value;
-  // });
 
   return (
     <div className={classes.root}>

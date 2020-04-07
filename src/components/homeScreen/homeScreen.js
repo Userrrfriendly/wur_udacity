@@ -2,7 +2,6 @@ import React from "react";
 import {
   makeStyles,
   Typography,
-  // Button,
   Box,
   Paper,
   Tabs,
@@ -16,9 +15,6 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
     flexFlow: "column",
-  },
-  homescreen: {
-    // display: "flex"
   },
 });
 
@@ -65,9 +61,16 @@ export default function Homescreen(props) {
     }
   });
 
+  answeredQ.sort(function (a, b) {
+    return b.timestamp - a.timestamp;
+  });
+  unAnsweredQ.sort(function (a, b) {
+    return b.timestamp - a.timestamp;
+  });
+
   return (
     <Paper className={classes.root}>
-      <Paper className={classes.homescreen} square>
+      <Paper square>
         <Tabs
           value={value}
           indicatorColor="primary"

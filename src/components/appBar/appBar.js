@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Button } from "@material-ui/core";
+import { AppBar, Toolbar, Button, makeStyles } from "@material-ui/core";
+import { AccountCircle } from "@material-ui/icons";
 import { LOG_OUT } from "../../store/actions/usersActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,13 +22,21 @@ const useStyles = makeStyles((theme) => ({
     color: "inherit",
     textDecoration: "none",
   },
+  authUserIcon: {
+    display: "flex",
+    flexGrow: "1",
+  },
+  authUserText: {
+    margin: "0",
+    padding: "0 1rem",
+  },
 }));
 
 export default function ButtonAppBar() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.users.authUser);
-
+  const users = useSelector((state) => state.users);
+  const auth = users.authUser;
   const handleLogOut = () => {
     dispatch({
       type: LOG_OUT,
@@ -41,6 +49,10 @@ export default function ButtonAppBar() {
         <Toolbar className={classes.toolbar}>
           {auth && (
             <>
+              <div className={classes.authUserIcon}>
+                <AccountCircle />
+                <p className={classes.authUserText}>{users.users[auth].name}</p>
+              </div>
               <Link to="/" className={classes.link}>
                 <Button color="inherit">Home</Button>
               </Link>
