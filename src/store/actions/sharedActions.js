@@ -1,6 +1,15 @@
 import * as DATA from "../../data/_DATA";
-import { LOAD_QUESTIONS } from "./questionsActions";
-import { LOAD_USERS, LOADING_USERS } from "./usersActions";
+import {
+  LOAD_QUESTIONS,
+  SAVE_QUESTION_ANSWER,
+  SAVE_QUESTION,
+} from "./questionsActions";
+import {
+  LOAD_USERS,
+  LOADING_USERS,
+  UPDATE_USER_ANSWERS,
+  CREATE_QUESTION_UPDATE,
+} from "./usersActions";
 
 export function loadInitialData() {
   return (dispatch) => {
@@ -8,17 +17,25 @@ export function loadInitialData() {
       ([usersData, questionsData]) => {
         // console.log(questionsData);
 
-        // const users = [];
-        // for (let key in usersData) {
-        //   users.push(usersData[key]);
-        // }
+        const users = {};
+        for (let key in usersData) {
+          const userWithScore = {
+            ...usersData[key],
+            score:
+              usersData[key].questions.length +
+              Object.keys(usersData[key].answers).length,
+          };
+          // users.push(usersData[key]);
+          users[key] = userWithScore;
+        }
+        console.log(users);
         const questions = [];
         for (let key in questionsData) {
           questions.push(questionsData[key]);
         }
         dispatch({
           type: LOAD_USERS,
-          users: usersData,
+          users: users,
         });
         dispatch({
           type: LOAD_QUESTIONS,
@@ -33,29 +50,40 @@ export function loadInitialData() {
   };
 }
 
-export function AAAloadInitialData() {
-  return Promise.all([DATA._getUsers(), DATA._getQuestions()]).then(
-    ([users, questions]) => ({
-      users,
-      questions,
-    })
-  );
+export function saveQuestionAnswer(obj) {
+  return (dispatch) => {
+    DATA._saveQuestionAnswer(obj).then((data) => {
+      // console.log(data);
+      // authedUser, qid, and answer
+      // userID, answerID,
+      dispatch({
+        type: SAVE_QUESTION_ANSWER,
+        payload: obj,
+      });
+      dispatch({
+        type: UPDATE_USER_ANSWERS,
+        payload: {
+          userID: obj.authedUser,
+          answerID: obj.qid,
+          answer: obj.answer,
+        },
+      });
+    });
+  };
 }
-// export function loadInitialData() {
-//   return dispatch => {
-//     DATA._getUsers().then(data => {
-//       const users = [];
-//       for (let key in data) {
-//         users.push(data[key]);
-//       }
-//       dispatch({
-//         type: "LOAD_USERS",
-//         users
-//       });
-//       dispatch({
-//         type: LOADING_USERS,
-//         payload: false
-//       });
-//     });
-//   };
-// }
+
+export function saveQuestion(obj) {
+  return (dispatch) => {
+    DATA._saveQuestion(obj).then((data) => {
+      console.log(data);
+      dispatch({
+        type: SAVE_QUESTION,
+        payload: data,
+      });
+      dispatch({
+        type: CREATE_QUESTION_UPDATE,
+        payload: { questionId: data.id, userId: data.author },
+      });
+    });
+  };
+}

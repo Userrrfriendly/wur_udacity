@@ -42,7 +42,7 @@ function TabPanel(props) {
 export default function Homescreen(props) {
   const classes = useStyles();
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -81,6 +81,9 @@ export default function Homescreen(props) {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
+        {answeredQ.length === 0 && (
+          <p>You haven't answered any questions yet!</p>
+        )}
         {answeredQ.map((q) => (
           <QuestionPreview
             key={q.id}
@@ -91,6 +94,7 @@ export default function Homescreen(props) {
         ))}
       </TabPanel>
       <TabPanel value={value} index={1}>
+        {unAnsweredQ.length === 0 && <p>You have no Unanswered question!</p>}
         {unAnsweredQ.map((q) => (
           <QuestionPreview
             key={q.id}

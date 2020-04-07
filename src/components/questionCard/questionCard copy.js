@@ -130,7 +130,7 @@ export default function QuestuinCard() {
   const q = formatedQuestion();
   console.group("GREAT BUG");
   console.log(q);
-  // console.log(!q.answered);
+  console.log(!q.answered);
   const handleSubmitAnswer = (e) => {
     // authedUser, qid, and answer = "optionOne" or "optionTwo"
     const result = { authedUser: authUser, qid: q.id, answer: value };
@@ -141,66 +141,59 @@ export default function QuestuinCard() {
   return (
     <div>
       {!q && <Error404 />}
-      {q ? (
-        !q.answered ? (
-          <Paper className={classes.root}>
-            <section className={classes.header}>
-              <Typography
-                align="left"
-                variant="h4"
-                component="h1"
-                className={classes.heading}
-              >
-                {`${q.name} asks:`}
+      {q && !q.answered ? (
+        <Paper className={classes.root}>
+          <section className={classes.header}>
+            <Typography
+              align="left"
+              variant="h4"
+              component="h1"
+              className={classes.heading}
+            >
+              {`${q.name} asks:`}
+            </Typography>
+          </section>
+          <section className={classes.cardBody}>
+            <Paper
+              className={classes.avatarSection}
+              style={{ backgroundImage: `url(${q.avatarURL})` }}
+            />
+            <section className={classes.questionSection}>
+              <Typography align="left" variant="h4" component="h2">
+                Would you rather...
               </Typography>
-            </section>
-            <section className={classes.cardBody}>
-              <Paper
-                className={classes.avatarSection}
-                style={{ backgroundImage: `url(${q.avatarURL})` }}
-              />
-              <section className={classes.questionSection}>
-                <Typography align="left" variant="h4" component="h2">
-                  Would you rather...
-                </Typography>
-                <FormControl
-                  component="fieldset"
-                  className={classes.radioGroup}
+              <FormControl component="fieldset" className={classes.radioGroup}>
+                <RadioGroup
+                  aria-label="answer"
+                  name="answer"
+                  value={value}
+                  onChange={handleChange}
                 >
-                  <RadioGroup
-                    aria-label="answer"
-                    name="answer"
-                    value={value}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value="optionOne"
-                      control={<Radio />}
-                      label={q.optionOneText}
-                    />
-                    <FormControlLabel
-                      value="optionTwo"
-                      control={<Radio />}
-                      label={q.optionTwoText}
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.submitBtn}
-                  onClick={handleSubmitAnswer}
-                >
-                  Submit
-                </Button>
-              </section>
+                  <FormControlLabel
+                    value="optionOne"
+                    control={<Radio />}
+                    label={q.optionOneText}
+                  />
+                  <FormControlLabel
+                    value="optionTwo"
+                    control={<Radio />}
+                    label={q.optionTwoText}
+                  />
+                </RadioGroup>
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.submitBtn}
+                onClick={handleSubmitAnswer}
+              >
+                Submit
+              </Button>
             </section>
-          </Paper>
-        ) : (
-          <ResultCard {...q} />
-        )
+          </section>
+        </Paper>
       ) : (
-        ""
+        <ResultCard {...q} />
       )}
     </div>
   );

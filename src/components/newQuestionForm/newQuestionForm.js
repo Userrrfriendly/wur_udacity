@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   Paper,
   Typography,
   TextareaAutosize,
   makeStyles,
-  Button
+  Button,
 } from "@material-ui/core";
+// import { saveQuestion } from "../../store/actions/questionsActions";
+import { saveQuestion } from "../../store/actions/sharedActions";
 
 const useStyles = makeStyles({
   root: {
@@ -16,10 +20,10 @@ const useStyles = makeStyles({
     minWidth: "50vw",
     minHeight: "30vh",
     alignItems: "center",
-    padding: "1rem 0"
+    padding: "1rem 0",
   },
   paper__textWrapper: {
-    width: "90%"
+    width: "90%",
   },
   textArea: {
     border: "1px solid teal",
@@ -27,26 +31,43 @@ const useStyles = makeStyles({
     width: "90%",
     resize: "none",
     margin: "1rem 0",
-    boxSizing: "border-box"
+    boxSizing: "border-box",
   },
   hrWrapper: {
     display: "flex",
     justifyContent: "center",
     width: "90%",
-    alignItems: "center"
+    alignItems: "center",
   },
   hr: {
     height: "2px",
     width: "90%",
-    backgroundColor: "#a5a5a5"
+    backgroundColor: "#a5a5a5",
   },
   hr__or: {
-    margin: "0 1rem"
-  }
+    margin: "0 1rem",
+  },
 });
 
 export default function NewQuestionForm() {
   const classes = useStyles();
+  const disptach = useDispatch();
+  const history = useHistory();
+  const [optionOneText, setOptionOneText] = useState("");
+  const [optionTwoText, setOptionTwoText] = useState("");
+  const handleOptionOneChange = (e) => {
+    setOptionOneText(e.target.value);
+  };
+  const handleOptionTwoChange = (e) => {
+    setOptionTwoText(e.target.value);
+  };
+  const author = useSelector((state) => state.users.authUser);
+  const handleSaveQuestion = (e) => {
+    disptach(saveQuestion({ author, optionOneText, optionTwoText }));
+    setOptionOneText("");
+    setOptionTwoText("");
+    history.push("/");
+  };
 
   return (
     <div>
@@ -60,7 +81,9 @@ export default function NewQuestionForm() {
           </Typography>
         </div>
         <TextareaAutosize
-          aria-label="minimum height"
+          onChange={handleOptionOneChange}
+          value={optionOneText}
+          aria-label="optionOne"
           rowsMin={3}
           className={classes.textArea}
         />
@@ -77,11 +100,18 @@ export default function NewQuestionForm() {
           <div className={classes.hr}></div>
         </div>
         <TextareaAutosize
-          aria-label="minimum height"
+          onChange={handleOptionTwoChange}
+          value={optionTwoText}
+          aria-label="optionTwo"
           rowsMin={3}
           className={classes.textArea}
         />
-        <Button variant="contained" color="primary" style={{ width: "90%" }}>
+        <Button
+          onClick={handleSaveQuestion}
+          variant="contained"
+          color="primary"
+          style={{ width: "90%" }}
+        >
           Submit
         </Button>
       </Paper>

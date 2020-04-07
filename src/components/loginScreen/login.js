@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import heroImage from "../../assets/hero-logo.png";
 import { signInUser } from "../../store/actions/usersActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const useStyles = makeStyles({
   root: {
     display: "flex",
@@ -48,6 +48,7 @@ export default function LoginScreen(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const auth = useSelector((state) => state.authUser);
   const [user, setUser] = React.useState("");
 
   const handleChange = (event) => {
@@ -56,8 +57,8 @@ export default function LoginScreen(props) {
 
   const handleLogIn = () => {
     if (user) {
-      props.changeTab(); //change tab to homescreen
-      history.push("home");
+      // props.changeTab(); //change tab to homescreen
+      // history.push("home");
       dispatch(signInUser(user));
     } else {
       alert("Please Select a User");

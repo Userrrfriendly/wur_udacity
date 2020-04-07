@@ -61,7 +61,7 @@ export default function QuestionCard({ author, previewText, id }) {
   const handleViewPollClick = () => {
     console.log(id);
     console.log(history.location);
-    history.push(`/questions:${id}`);
+    history.push(`/questions/${id}`);
   };
 
   return (
